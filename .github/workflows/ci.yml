@@ -1,0 +1,60 @@
+name: CI
+
+on: 
+  push:
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    # We want to compile with v142
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Check free space 
+      shell: bash 
+      run: |
+        df -h
+  
+    # Workaround for https://github.community/t5/GitHub-Actions/Windows-tests-worked-yesterday-broken-today/td-p/43574
+    - name: Override bash shell PATH (windows-latest)
+      run: echo "C:\Program Files\Git\bin" >> $GITHUB_PATH
+    
+    - name: Download custom vcpkg and additional ports 
+      shell: bash
+      run: |
+        choco install -y wget
+        mkdir C:/ivdv
+        cd C:/ivdv
+        git clone https://github.com/Microsoft/vcpkg
+        cd vcpkg
+        git checkout 2023.06.20
+        C:/ivdv/vcpkg/bootstrap-vcpkg.sh
+
+        
+    - name: Install vcpkg ports
+      shell: bash
+      run: |
+        cp ./x64-windows-mt-v142.cmake C:/ivdv/vcpkg/triplets
+        C:/ivdv/vcpkg/vcpkg.exe install --triplet=x64-windows-mt-v142 opencv[dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog
+
+        
+    - name: Prepare release file
+      if: github.event_name == 'release'
+      shell: cmd 
+      run: |
+        7z a vcpkg-idjl-vision.zip C:\ivdv
+        
+    - name: Upload Release Asset
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./vcpkg-idjl-vision.zip
+          asset_name: vcpkg-idjl-vision.zip
+          asset_content_type: application/zip
