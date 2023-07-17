@@ -47,13 +47,15 @@ index 9effd1a2db..a059c28e36 100644
      )
  onnxruntime_fetchcontent_makeavailable(date)
  
-@@ -182,7 +182,23 @@ FetchContent_Declare(
+@@ -182,7 +182,25 @@ FetchContent_Declare(
    mp11
    URL ${DEP_URL_mp11}
    URL_HASH SHA1=${DEP_SHA1_mp11}
 +  FIND_PACKAGE_ARGS NAMES Boost
  )
 +find_package(Flatbuffers REQUIRED)
++# Without this, CMAKE_INSTALL_INCLUDEDIR is not defined and this result in the header installed in the wrong location on Windows
++include(GNUInstallDirs)
 +# See https://github.com/iit-danieli-joint-lab/idjl-vision-dependencies-vcpkg/pull/4#issuecomment-1636771692
 +if(NOT TARGET safeint_interface)
 +  add_library(safeint_interface INTERFACE)
