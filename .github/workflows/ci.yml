@@ -22,7 +22,12 @@ jobs:
     # Workaround for https://github.community/t5/GitHub-Actions/Windows-tests-worked-yesterday-broken-today/td-p/43574
     - name: Override bash shell PATH (windows-latest)
       run: echo "C:\Program Files\Git\bin" >> $GITHUB_PATH
-    
+
+    - uses: Jimver/cuda-toolkit@v0.2.11
+      id: cuda-toolkit
+      with:
+        cuda: '12.1.0'
+
     - name: Download custom vcpkg and additional ports 
       shell: bash
       run: |
@@ -33,7 +38,6 @@ jobs:
         cd vcpkg
         git checkout 2023.06.20
         C:/ivdv/vcpkg/bootstrap-vcpkg.sh
-
         
     - name: Install vcpkg ports
       shell: bash
