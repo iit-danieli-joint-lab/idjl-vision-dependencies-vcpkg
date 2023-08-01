@@ -38,7 +38,8 @@ jobs:
 
     - name: Install cudnn
       run: |
-        tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip --strip 1 --directory "%CUDA_TOOLKIT_ROOT%"
+        set
+        tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip --strip 1 --directory "%CUDA_PATH%"
 
     - name: Download custom vcpkg and additional ports 
       shell: bash
