@@ -37,6 +37,7 @@ jobs:
         token: ${{ secrets.IDJL_PRIVATE_STORAGE_TOKEN }}
 
     - name: Install cudnn
+      shell: cmd
       run: |
         set
         tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip --strip 1 --directory "%CUDA_PATH%"
