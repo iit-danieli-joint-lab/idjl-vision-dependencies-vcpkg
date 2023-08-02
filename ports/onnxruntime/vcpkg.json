@@ -42,7 +42,10 @@
       "description": "Build with CoreML support"
     },
     "cuda": {
-      "description": "Build with CUDA/NCCL support"
+      "description": "Build with CUDA/NCCL support",
+      "dependencies": [
+        "cuda"
+      ]
     },
     "directml": {
       "description": "Build with DirectML support",
