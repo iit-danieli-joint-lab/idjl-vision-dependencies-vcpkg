@@ -94,7 +94,7 @@ vcpkg_cmake_configure(
         -Donnxruntime_ENABLE_EXTERNAL_CUSTOM_OP_SCHEMAS=OFF
         # This are hardcoded architectures for our specific use case, to compile for 
         # all comment this line and uncomment the following one
-        -DCMAKE_CUDA_ARCHITECTURES="75;86"
+        -DCMAKE_CUDA_ARCHITECTURES=86
         # -DCMAKE_CUDA_ARCHITECTURES=all
     OPTIONS_DEBUG
         -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
