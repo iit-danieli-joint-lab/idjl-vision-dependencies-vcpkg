@@ -62,7 +62,7 @@ jobs:
       if: failure()
       with:
         name: vcpkg-onnxruntime-compilation-logs
-        path: C:\ivdv\vcpkg\buildtrees\onnxruntime\config-*.log
+        path: C:\ivdv\vcpkg\buildtrees\onnxruntime\install-*.log
 
     # Remove temporary files https://github.com/Microsoft/vcpkg/blob/master/docs/about/faq.md#how-can-i-remove-temporary-files
     # For some reason doing using git bash to do rm -rf fails for icu's port buildtrees, probably for the use of msys2 
