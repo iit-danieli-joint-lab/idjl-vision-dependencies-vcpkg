@@ -44,7 +44,8 @@
     "cuda": {
       "description": "Build with CUDA/NCCL support",
       "dependencies": [
-        "cuda"
+        "cuda",
+        "cudnn"
       ]
     },
     "directml": {
