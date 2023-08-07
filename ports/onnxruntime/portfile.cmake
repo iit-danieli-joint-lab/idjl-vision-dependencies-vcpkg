@@ -96,11 +96,6 @@ vcpkg_cmake_configure(
         # all comment this line and uncomment the following one
         -DCMAKE_CUDA_ARCHITECTURES=86
         # -DCMAKE_CUDA_ARCHITECTURES=all)
-    OPTIONS_DEBUG
-        -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
-        -Donnxruntime_ENABLE_MEMORY_PROFILE=OFF
-        -Donnxruntime_ENABLE_CUDA_PROFILING=ON
-        -Donnxruntime_DEBUG_NODE_INPUTS_OUTPUTS=ON
 )
 vcpkg_cmake_install()
 vcpkg_copy_pdbs()
