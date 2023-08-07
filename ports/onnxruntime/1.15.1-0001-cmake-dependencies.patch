@@ -188,3 +188,17 @@ index 0daa1b8a3d..1f25467a8c 100644
    set_target_properties(onnxruntime_providers_xnnpack PROPERTIES LINKER_LANGUAGE CXX)
  
    if (NOT onnxruntime_BUILD_SHARED_LIB)
+
+diff --git a/cmake/external/onnxruntime_external_deps.cmake b/cmake/external/onnxruntime_external_deps.cmake
+index 9effd1a2db43..1577ca245ff3 100644
+--- a/cmake/external/onnxruntime_external_deps.cmake
++++ b/cmake/external/onnxruntime_external_deps.cmake
+@@ -280,7 +280,7 @@ if (NOT WIN32)
+   endif()
+ endif()
+ 
+-if(onnxruntime_USE_CUDA)
++if(FALSE)
+   FetchContent_Declare(
+     GSL
+     URL ${DEP_URL_microsoft_gsl}

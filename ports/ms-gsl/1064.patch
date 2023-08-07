@@ -1,0 +1,45 @@
+From bda06811e35db3259c41978be81f4f4070673cd3 Mon Sep 17 00:00:00 2001
+From: Changming Sun <chasun@microsoft.com>
+Date: Sat, 5 Nov 2022 15:10:59 -0700
+Subject: [PATCH 1/2] Fix GSL_SUPPRESS definition when nvcc is in-use
+
+---
+ include/gsl/byte | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/gsl/byte b/include/gsl/byte
+index 9231340b..f92a91c9 100644
+--- a/include/gsl/byte
++++ b/include/gsl/byte
+@@ -24,7 +24,7 @@
+ #if defined(__clang__)
+ #define GSL_SUPPRESS(x) [[gsl::suppress("x")]]
+ #else
+-#if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
++#if defined(_MSC_VER) && !defined(__INTEL_COMPILER) && !defined(__NVCC__)
+ #define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
+ #else
+ #define GSL_SUPPRESS(x)
+
+From dd542bc601dc8c558af25d25885589c7722bbeb2 Mon Sep 17 00:00:00 2001
+From: Changming Sun <chasun@microsoft.com>
+Date: Sat, 5 Nov 2022 15:57:48 -0700
+Subject: [PATCH 2/2] Update assert
+
+---
+ include/gsl/assert | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/gsl/assert b/include/gsl/assert
+index a6012048..a5c216f8 100644
+--- a/include/gsl/assert
++++ b/include/gsl/assert
+@@ -48,7 +48,7 @@
+ #if defined(__clang__)
+ #define GSL_SUPPRESS(x) [[gsl::suppress("x")]]
+ #else
+-#if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
++#if defined(_MSC_VER) && !defined(__INTEL_COMPILER) && !defined(__NVCC__)
+ #define GSL_SUPPRESS(x) [[gsl::suppress(x)]]
+ #else
+ #define GSL_SUPPRESS(x)

@@ -92,6 +92,7 @@ vcpkg_cmake_configure(
         -Donnxruntime_ENABLE_BITCODE=${VCPKG_TARGET_IS_IOS}
         -Donnxruntime_ENABLE_PYTHON=OFF
         -Donnxruntime_ENABLE_EXTERNAL_CUSTOM_OP_SCHEMAS=OFF
+        -DCMAKE_CUDA_ARCHITECTURES=all
     OPTIONS_DEBUG
         -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
         -Donnxruntime_ENABLE_MEMORY_PROFILE=OFF
