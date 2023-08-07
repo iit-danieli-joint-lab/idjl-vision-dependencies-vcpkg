@@ -56,7 +56,7 @@ jobs:
     - name: Install vcpkg ports
       shell: bash
       run: |
-        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog
+        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-functional cppitertools 
 
     - uses: actions/upload-artifact@v3
       if: failure()
