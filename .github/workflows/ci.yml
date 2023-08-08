@@ -22,7 +22,26 @@ jobs:
     # Workaround for https://github.community/t5/GitHub-Actions/Windows-tests-worked-yesterday-broken-today/td-p/43574
     - name: Override bash shell PATH (windows-latest)
       run: echo "C:\Program Files\Git\bin" >> $GITHUB_PATH
-    
+
+    - uses: Jimver/cuda-toolkit@v0.2.11
+      id: cuda-toolkit
+      with:
+        cuda: '12.1.0'
+
+    # We need to download cudnn from a private repo as it is not redistributable outside an organization
+    - uses: dsaltares/fetch-gh-release-asset@master
+      with:
+        repo: 'iit-danieli-joint-lab/idjl-private-storage'
+        version: 'tags/storage'
+        file: 'cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip'
+        token: ${{ secrets.IDJL_PRIVATE_STORAGE_TOKEN }}
+
+    - name: Install cudnn
+      shell: cmd
+      run: |
+        set
+        tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip --strip 1 --directory "%CUDA_PATH%"
+
     - name: Download custom vcpkg and additional ports 
       shell: bash
       run: |
@@ -33,12 +52,17 @@ jobs:
         cd vcpkg
         git checkout 2023.06.20
         C:/ivdv/vcpkg/bootstrap-vcpkg.sh
-
         
     - name: Install vcpkg ports
       shell: bash
       run: |
-        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash  cppitertools  
+        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash cppitertools 
+
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: vcpkg-onnxruntime-compilation-logs
+        path: C:\ivdv\vcpkg\buildtrees\onnxruntime\install-*.log
 
     # Remove temporary files https://github.com/Microsoft/vcpkg/blob/master/docs/about/faq.md#how-can-i-remove-temporary-files
     # For some reason doing using git bash to do rm -rf fails for icu's port buildtrees, probably for the use of msys2 

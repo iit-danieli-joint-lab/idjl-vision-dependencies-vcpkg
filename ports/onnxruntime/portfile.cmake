@@ -10,6 +10,7 @@ vcpkg_from_github(
     PATCHES
       1.14.1-0004-abseil-no-string-view.patch
       1.15.1-0001-cmake-dependencies.patch
+      fix_missing_cuda_definition.patch
 )
 
 if("xnnpack" IN_LIST FEATURES)
@@ -92,13 +93,14 @@ vcpkg_cmake_configure(
         -Donnxruntime_ENABLE_BITCODE=${VCPKG_TARGET_IS_IOS}
         -Donnxruntime_ENABLE_PYTHON=OFF
         -Donnxruntime_ENABLE_EXTERNAL_CUSTOM_OP_SCHEMAS=OFF
-    OPTIONS_DEBUG
-        -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
-        -Donnxruntime_ENABLE_MEMORY_PROFILE=OFF
-        -Donnxruntime_ENABLE_CUDA_PROFILING=ON
-        -Donnxruntime_DEBUG_NODE_INPUTS_OUTPUTS=ON
+        # cutlass dependency is not managed, see https://github.com/iit-danieli-joint-lab/idjl-vision-dependencies-vcpkg/pull/5#issuecomment-1669056801
+        # once cutlass is correctly managed, enable or remove this option (that should be the same as the option is ON by default)
+        -Donnxruntime_USE_FLASH_ATTENTION:BOOL=OFF
+        # This are hardcoded architectures for our specific use case, to compile for
+        # all comment this line and uncomment the following one
+        -DCMAKE_CUDA_ARCHITECTURES=86
+        # -DCMAKE_CUDA_ARCHITECTURES=all)
 )
-vcpkg_cmake_build(TARGET onnxruntime)
 vcpkg_cmake_install()
 vcpkg_copy_pdbs()
 vcpkg_fixup_pkgconfig() # pkg_check_modules(libonnxruntime)
