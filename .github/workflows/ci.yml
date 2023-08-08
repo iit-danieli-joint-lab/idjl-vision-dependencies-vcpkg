@@ -26,21 +26,21 @@ jobs:
     - uses: Jimver/cuda-toolkit@v0.2.11
       id: cuda-toolkit
       with:
-        cuda: '12.1.0'
+        cuda: '11.8.0'
 
     # We need to download cudnn from a private repo as it is not redistributable outside an organization
     - uses: dsaltares/fetch-gh-release-asset@master
       with:
         repo: 'iit-danieli-joint-lab/idjl-private-storage'
         version: 'tags/storage'
-        file: 'cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip'
+        file: 'cudnn-windows-x86_64-8.9.3.28_cuda11-archive.zip'
         token: ${{ secrets.IDJL_PRIVATE_STORAGE_TOKEN }}
 
     - name: Install cudnn
       shell: cmd
       run: |
         set
-        tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda12-archive.zip --strip 1 --directory "%CUDA_PATH%"
+        tar.exe -xvf cudnn-windows-x86_64-8.9.3.28_cuda11-archive.zip --strip 1 --directory "%CUDA_PATH%"
 
     - name: Download custom vcpkg and additional ports 
       shell: bash
