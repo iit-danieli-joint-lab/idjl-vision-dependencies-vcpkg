@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        vcpkg_triplet: [x64-windows-mt-v142, x64-windows-static-v142]
+        vcpkg_triplet: [x64-windows-mt-v142, x64-windows-mixed-v142]
 
     steps:
     - uses: actions/checkout@v1
