@@ -92,6 +92,9 @@ vcpkg_cmake_configure(
         -Donnxruntime_ENABLE_BITCODE=${VCPKG_TARGET_IS_IOS}
         -Donnxruntime_ENABLE_PYTHON=OFF
         -Donnxruntime_ENABLE_EXTERNAL_CUSTOM_OP_SCHEMAS=OFF
+        # cutlass dependency is not managed, see https://github.com/iit-danieli-joint-lab/idjl-vision-dependencies-vcpkg/pull/5#issuecomment-1669056801
+        # once cutlass is correctly managed, enable or remove this option (that should be the same as the option is ON by default)
+        -Donnxruntime_USE_FLASH_ATTENTION:BOOL=OFF
         # This are hardcoded architectures for our specific use case, to compile for
         # all comment this line and uncomment the following one
         -DCMAKE_CUDA_ARCHITECTURES=86
