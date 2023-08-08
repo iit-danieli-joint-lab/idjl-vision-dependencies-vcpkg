@@ -38,7 +38,7 @@ jobs:
     - name: Install vcpkg ports
       shell: bash
       run: |
-        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-functional cppitertools  
+        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash  cppitertools  
 
     # Remove temporary files https://github.com/Microsoft/vcpkg/blob/master/docs/about/faq.md#how-can-i-remove-temporary-files
     # For some reason doing using git bash to do rm -rf fails for icu's port buildtrees, probably for the use of msys2 
