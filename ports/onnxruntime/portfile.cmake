@@ -10,6 +10,7 @@ vcpkg_from_github(
     PATCHES
       1.14.1-0004-abseil-no-string-view.patch
       1.15.1-0001-cmake-dependencies.patch
+      fix_missing_cuda_definition.patch
 )
 
 if("xnnpack" IN_LIST FEATURES)
