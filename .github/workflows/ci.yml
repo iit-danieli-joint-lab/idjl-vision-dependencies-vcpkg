@@ -1,7 +1,7 @@
 name: CI
 
 on: 
-  push:
+  workflow_dispatch:
   pull_request:
   release:
     types: [published]
@@ -10,6 +10,9 @@ jobs:
   build:
     # We want to compile with v142
     runs-on: windows-2019
+    strategy:
+      matrix:
+        vcpkg_triplet: [x64-windows-mt-v142, x64-windows-mixed-v142]
 
     steps:
     - uses: actions/checkout@v1
@@ -56,12 +59,12 @@ jobs:
     - name: Install vcpkg ports
       shell: bash
       run: |
-        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=x64-windows-mt-v142 onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash cppitertools 
+        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=${{ matrix.vcpkg_triplet }} onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash cppitertools 
 
     - uses: actions/upload-artifact@v3
       if: failure()
       with:
-        name: vcpkg-onnxruntime-compilation-logs
+        name: vcpkg-onnxruntime-compilation-logs-${{ matrix.vcpkg_triplet }}
         path: C:\ivdv\vcpkg\buildtrees\onnxruntime\install-*.log
 
     # Remove temporary files https://github.com/Microsoft/vcpkg/blob/master/docs/about/faq.md#how-can-i-remove-temporary-files
@@ -78,7 +81,7 @@ jobs:
       if: github.event_name == 'release'
       shell: cmd 
       run: |
-        7z a vcpkg-idjl-vision.zip C:\ivdv
+        7z a vcpkg-idjl-vision-${{ matrix.vcpkg_triplet }}.zip C:\ivdv
         
     - name: Upload Release Asset
       if: github.event_name == 'release'
@@ -87,6 +90,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./vcpkg-idjl-vision.zip
-          asset_name: vcpkg-idjl-vision.zip
+          asset_path: ./vcpkg-idjl-vision-${{ matrix.vcpkg_triplet }}.zip
+          asset_name: vcpkg-idjl-vision-${{ matrix.vcpkg_triplet }}.zip
           asset_content_type: application/zip
