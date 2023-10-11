@@ -59,7 +59,7 @@ jobs:
     - name: Install vcpkg ports
       shell: bash
       run: |
-        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=${{ matrix.vcpkg_triplet }} onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash cppitertools 
+        C:/ivdv/vcpkg/vcpkg.exe install --overlay-triplets=./triplets  --overlay-ports=./ports --triplet=${{ matrix.vcpkg_triplet }} onnxruntime[cuda] opencv[contrib,dnn] yaml-cpp wxwidgets bfgroup-lyra eigen3 spdlog boost-container-hash boost-graph cppitertools 
 
     - uses: actions/upload-artifact@v3
       if: failure()
